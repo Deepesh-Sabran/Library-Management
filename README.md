@@ -1,58 +1,106 @@
 # Library Management
 
-server >> storing certain book data >> user register >> subscriber
+## Book Record Managment
 
-This is a book record management API server / backend for the library system
+Server -> Storing Book Data, User Register, Subsctibers
 
-Fine system:
-user: 28/11/2023 - 28/02/2024
-01/03/2024 => 50/- per day
+/users/{id}
+http://localhost:801/users/1
 
-3 month (basic) - subscription
-6 month (standard)
-12 month (premium)
-
-if the subscription type is standard && if the subscription date is 28/11/2023
-=> then subscription valid till 28/05/2024
-
-with subscription date >> if we miss renewal of book >> 50/- perday
-subscription date is also been missed >> also ,issed the renewal >> 100 + (50/- per day)
-
--> book renewal date - 28/11/2023
--> want to renew on date - 01/12/2023 >> 50*2
--> subscription is also outdated then >> 100 + (50*2)
-
-# Routes & Endpoints
+# Routes and Endpoints
 
 ## /users
 
 POST: Create a new user
-GET: Get all the user info here
+GET: Get all users Lists
 
 ## /users/{id}
 
 GET: Get a user by id
-PUT: update a user by their id
-DELETE: Delete a user by id(check if he/she still have any issued book) && (is there any fine yo paid)
+PUT: Update a user by id
+DELETE: Delete a user by id (chk if he/she still has an issued book) && (if he/she have any fine to be paid)
 
-## /user/subscription-details/{id}
+// Fine Desciption
+User => 3 months || 6 months || 12 months
 
-GET: get user subscription details >> date od subscription >> valid till >> is there any fine
+04th aug 2023 4\*50 = 200
+
+## users/subscription-details/{id}
+
+GET: Get user subscription details
+
+1. Date of subscription
+2. valid till
+   3.Fine if any
 
 ## /books
 
 GET: Get all the books
-PUT: create/add a new book
+POST: Create/Add a book
 
 ## /books/{id}
 
-GET: get a book by id
-PUT: update a book by id
+GET: Get a book by its id
+PUT: Update a book by its id
 
-## /books/issued
+## books/issued
 
-GET: get all issued books
+GET: Get all the issued books
 
 ## /books/issued/withFine
 
-GET: get all issued books with their fine
+GET: Get all issued books with fine
+
+### Subscription Type
+
+Basic (3 months)
+Standard (6 months)
+Premium (12 months)
+
+## Spread Operator
+
+data ={
+name: "rohan",
+age: 2
+}
+
+{
+...data,
+age: 5,
+surname: "kinnal"
+}
+
+data={
+name:"rohan",
+age: 5,
+surname: "kinnal"
+}
+
+...each
+
+          "id": "1",
+          "name": "John",
+          "surname": "Doe",
+          "email": "user@email.com",
+          "issuedBook": "1",
+          "issuedDate": "04/01/2022",
+          "returnDate": "05/01/2022",
+          "subscriptionType": "Premium",
+          "subscriptionDate": "04/01/2022"
+
+...data
+"surname": "Kinnal"
+
+O/P:
+"id": "1",
+"name": "John",
+"surname": "Kinnal",
+"email": "user@email.com",
+"issuedBook": "1",
+"issuedDate": "04/01/2022",
+"returnDate": "05/01/2022",
+"subscriptionType": "Premium",
+"subscriptionDate": "04/01/2022"
+
+int arr = [20, 21, 22]
+arr.indexOf(21)
