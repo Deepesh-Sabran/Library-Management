@@ -32,6 +32,13 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   // create a book
   const { id, name, author, gener, price, publisher } = req.body;
+
+  // if (!id || !name || !author || !gener || !price || !publisher) {
+  //   return res.status(404).json({
+  //     success: false,
+  //     message: "nothing to create",
+  //   });
+  // }
   // check if the book already exist or not
   const book = books.find((each) => each.id === id);
   if (book) {
@@ -41,12 +48,41 @@ router.post("/", (req, res) => {
     });
   }
   books.push({ id, name, author, gener, price, publisher });
-  return res.status(200).json({
+  return res.status(201).json({
     success: true,
     message: "book created",
     data: books,
   });
 });
+
+// ____________________________________________________________
+
+// router.post("/", (req, res) => {
+//   const { data } = req.body;
+
+// here we are taking data in {} object from so we have to write req. body also in {} obj format ex: {"":{__:""}}
+
+//   if (!data) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "No data provided to add a book",
+//     });
+//   }
+
+//   const book = books.find((each) => each.id === data.id);
+
+//   if (book) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "Book with the given ID already exists",
+//     });
+//   }
+
+//   const allBooks = [...books, data];
+//   return res.status(200).json({ success: true, data: allBooks });
+// });
+
+// ____________________________________________________________________________
 
 /**
  * route: /issued
@@ -58,7 +94,7 @@ router.post("/", (req, res) => {
 
 router.get("/issued", (req, res) => {
   // if you write the code in top then URL should be
-  // filter users who issue book
+  // filter / check users who issue book
   const userWithIssuedBook = users.filter((each) => {
     if (each.issuedBook) return each;
   });
@@ -144,7 +180,7 @@ router.put("/:id", (req, res) => {
     // whatever not updated that should be same
     return each;
   });
-  return res.status(200).json({
+  return res.status(202).json({
     success: true,
     message: "book updated",
     data: updatedBook,
