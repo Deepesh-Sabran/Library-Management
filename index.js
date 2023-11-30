@@ -2,6 +2,9 @@ const express = require("express");
 const { users } = require("./data/users.json");
 const { books } = require("./data/books.json");
 
+const userRouter = require("./routes/users");
+const bookRouter = require("./routes/books");
+
 const app = express();
 app.use(express.json());
 
@@ -18,31 +21,14 @@ const port = 8081;
 // ____________________________________________
 
 // route for home page
-// app.get("/", (req, res) => {
-//   res.status(200).json({ message: "server is up and running .." });
-// });
-
-/**
- * route: /user
- * method: GET
- * description: get all users
- * access: public
- * parameter: none
- */
-
-app.get("/books", (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: books,
-  });
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "server is up and running .." });
 });
 
-app.get("/users", (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: users,
-  });
-});
+// in one page if we handle all the api's then the server get heavy so we make here routes
+// for different group of api's ex: for users, for books
+app.use("/users", userRouter);
+app.use("/books", bookRouter);
 
 // for non existing routes
 app.get("*", (req, res) => {

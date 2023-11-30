@@ -37,7 +37,7 @@ DELETE: Delete a user by id(check if he/she still have any issued book) && (is t
 
 ## /user/subscription-details/{id}
 
-GET: get user subscription details >> date od subscription >> valid till >> is there any fine
+GET: get user subscription details >> date of subscription >> valid till >> is there any fine
 
 ## /books
 
