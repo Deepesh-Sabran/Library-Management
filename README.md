@@ -56,3 +56,8 @@ GET: get all issued books
 ## /books/issued/withFine
 
 GET: get all issued books with their fine
+
+## Mongo DB
+
+    >> setup, then installing module ( npm i mongoose )
+    >>  MVC(modal view controller)
