@@ -61,3 +61,11 @@ GET: get all issued books with their fine
 
     >> setup, then installing module ( npm i mongoose )
     >>  MVC(modal view controller)
+    >> M: Modal (it depicts the structure of MongoDB collections)
+    >> V: View (write into frontend part (ReactJs))
+    >> C: Controllers (Brain or logical part of routes [Backend])
+          >> books.controller.js
+          >> users.controller.js
+
+    Schema >> attributes with data-types & conditions [ id: string ]
+    Modals >> attributes with values [ id: 1 ]

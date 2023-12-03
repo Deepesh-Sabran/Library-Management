@@ -2,6 +2,9 @@ const express = require("express");
 const { users } = require("../data/users.json");
 const router = express.Router();
 
+// importing two things in a sigle go, that's why we make a separate index.js file within modals folder
+const { userModal, bookModal } = require("../modals/index");
+
 /**
  * route: /
  * method: GET

@@ -3,6 +3,14 @@ const { books } = require("../data/books.json");
 const { users } = require("../data/users.json");
 const router = express.Router();
 
+// importing two things in a sigle go, that's why we make a separate index.js file within modals folder
+const { userModal, bookModal } = require("../modals/index");
+const {
+  getAllBooks,
+  getSingleBookById,
+  getAllIssuedBooks,
+} = require("../controllers/book-controller");
+
 /**
  * route: /
  * method: GET
@@ -11,15 +19,15 @@ const router = express.Router();
  * parameter: none
  */
 
-// here we use the router that's why in the path we remove books, we only keep "/" ex: [ /users => /]
+// here we use the router that's why in the path we remove books, we only keep "/" ex: [ /books => /]
 // similarly we have [ /books/:id => /:id ]
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: books,
-  });
-});
+// ___________________________________________________________________
+
+// Database Approch for using APIs:
+router.get("/", getAllBooks);
+
+// ___________________________________________________________________
 
 /**
  * route: /
@@ -85,47 +93,6 @@ router.post("/", (req, res) => {
 // ____________________________________________________________________________
 
 /**
- * route: /issued
- * method: GET
- * description: get all issued books
- * access: public
- * parameter:
- */
-
-router.get("/issued", (req, res) => {
-  // if you write the code in top then URL should be
-  // filter / check users who issue book
-  const userWithIssuedBook = users.filter((each) => {
-    if (each.issuedBook) return each;
-  });
-
-  const issuedBook = [];
-
-  // matching the book id of each user who issue book, with the book id present in book.json
-  userWithIssuedBook.forEach((each) => {
-    // here we are finding user issued which book
-    const book = books.find((book) => book.id === each.issuedBook);
-
-    book.issuedBy = each.name;
-    book.issueDate = each.issuedDate;
-    book.returnDate = each.returnDate;
-
-    issuedBook.push(book);
-  });
-  if (issuedBook.length === 0) {
-    return res.status(404).json({
-      success: false,
-      message: "no book have been issued yet",
-    });
-  }
-  return res.status(200).json({
-    success: true,
-    message: "user with the issued book",
-    data: issuedBook,
-  });
-});
-
-/**
  * route: /:id
  * method: GET
  * description: get book by their id
@@ -133,21 +100,28 @@ router.get("/issued", (req, res) => {
  * parameter: id
  */
 
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  const book = books.find((each) => each.id === id);
-  if (!book) {
-    return res.status(404).json({
-      success: false,
-      message: "book not found",
-    });
-  }
-  return res.status(200).json({
-    success: true,
-    message: "book found",
-    data: book,
-  });
-});
+// ___________________________________________________________________
+
+// Database Approch for using APIs:
+router.get("/:id", getSingleBookById);
+
+// ___________________________________________________________________
+
+/**
+ * route: /issued
+ * method: GET
+ * description: get all issued books
+ * access: public
+ * parameter:
+ */
+
+// ___________________________________________________________________
+
+// Database Approch for using APIs:
+
+router.get("/issued/by-users", getAllIssuedBooks);
+
+// ___________________________________________________________________
 
 /**
  * route: /:id
