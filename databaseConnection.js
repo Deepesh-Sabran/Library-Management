@@ -8,8 +8,9 @@ function dbConnection() {
   mongoose
     .connect(DB_URL, {
       // whenever we make connection our db to node or something before that we need this file, for every project
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
+      // { this are required till before nodeJS v-4 }
     })
     .then(() => {
       console.log("DB connection successful.");

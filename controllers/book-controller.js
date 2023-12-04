@@ -1,7 +1,8 @@
 // importing two things in a sigle go, that's why we make a separate index.js file within modals folder
 const { userModal, bookModal } = require("../modals/index");
+const IssuedBook = require("../dtos/book-dto").default;
 
-// here we are using diffrent approch
+// here we are using diffrent approch for exports
 // here we use async & await because making connection with database it takes certain time
 exports.getAllBooks = async (req, res) => {
   // anytime we need to interact with our DB we need to use async & await
@@ -24,7 +25,8 @@ exports.getAllBooks = async (req, res) => {
 
 exports.getSingleBookById = async (req, res) => {
   const { id } = req.params;
-  const book = await bookModal.findById(id); // .findById is also a MongoDB method
+  // .findById is also a MongoDB method
+  const book = await bookModal.findById(id);
 
   if (!book) {
     return res.status(404).json({
@@ -47,9 +49,10 @@ exports.getAllIssuedBooks = async (req, res) => {
     })
     .populate("issuedBook"); // populate basically as append/push method
 
-  // Data Transfer Object
+  // Data Transfer Object (DTO) => transfering information of obj. to another obj.
+  const issuedBooks = userWithIssuedBook.map((each) => new IssuedBook(each));
 
-  if (issuedBook.length === 0) {
+  if (issuedBooks.length === 0) {
     return res.status(400).json({
       success: false,
       message: "no book have been issued",
@@ -63,4 +66,45 @@ exports.getAllIssuedBooks = async (req, res) => {
   }
 };
 
+exports.addNewBook = async (req, res) => {
+  const { data } = req.body;
+
+  if (!data) {
+    return res.status(400).json({
+      success: false,
+      message: "no data to add",
+    });
+  }
+  // here .create is a internal method of MongoDB
+  await bookModal.create(data);
+  // in the above line we didn't check if the book is alrady present or not because, in MongoDB Id is generated automatically
+  const allBooks = await bookModal.find();
+
+  return res.status(200).json({
+    success: true,
+    message: "book added successfuly",
+    data: allBooks,
+  });
+};
+
+exports.updateBookById = async (req, res) => {
+  // const id = await req.params.id;
+  const { id } = req.params;
+  const { data } = req.body;
+  // again .findOneAndUpdate() is a method of MongoDB
+  const updatedBook = await bookModal.findOneAndUpdate(
+    {
+      _id: id, // auto generated id : id what we pass
+    },
+    data,
+    {
+      new: true, //using this just in case our database not get refreshed or we've any glitch
+    }
+  );
+  return res.status(200).json({
+    success: true,
+    messsage: "book update successfuly",
+    data: updatedBook,
+  });
+};
 // module.exports = { getAllBooks, getSingleBookById };

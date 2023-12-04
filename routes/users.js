@@ -1,9 +1,6 @@
 const express = require("express");
-const { users } = require("../data/users.json");
+const { getAllUsers } = require("../controllers/user-controller");
 const router = express.Router();
-
-// importing two things in a sigle go, that's why we make a separate index.js file within modals folder
-const { userModal, bookModal } = require("../modals/index");
 
 /**
  * route: /
@@ -16,12 +13,12 @@ const { userModal, bookModal } = require("../modals/index");
 // here we use the router that's why in the path we remove users, we only keep "/" ex: [ /users => /]
 // similarly we have [ /users/:id => /:id ]
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: users,
-  });
-});
+// ___________________________________________________________________
+
+// Database Approch for using APIs:
+router.get("/", getAllUsers);
+
+// ___________________________________________________________________
 
 /**
  * route: /:id
