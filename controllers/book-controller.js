@@ -88,9 +88,12 @@ exports.addNewBook = async (req, res) => {
 };
 
 exports.updateBookById = async (req, res) => {
-  // const id = await req.params.id;
+  // const id = req.params.id;
   const { id } = req.params;
   const { data } = req.body;
+
+  // we don't need to crosscheck with the id like if user is present or not because, if there is any other id ratherthan one
+  // present in the DB then the connection automatically get crashed
   // again .findOneAndUpdate() is a method of MongoDB
   const updatedBook = await bookModal.findOneAndUpdate(
     {

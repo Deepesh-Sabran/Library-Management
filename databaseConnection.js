@@ -1,3 +1,5 @@
+// you can use this file for n number of projectss for connecting Database (MongoDB)
+
 const mongoose = require("mongoose");
 
 function dbConnection() {
