@@ -86,9 +86,10 @@ exports.updateUser = async (req, res) => {
     {
       _id: id,
     },
+    // data,
     {
       $set: {
-        ...data,
+        ...data, // another approch ..
       },
     },
     {

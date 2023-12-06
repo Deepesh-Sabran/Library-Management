@@ -42,6 +42,7 @@ app.get("*", (req, res) => {
   res.status(404).json({ message: "This route does not exist .." });
 });
 
+// we have to listen to our port which we define
 app.listen(port, () => {
   console.log(`server created and running on port: ${port}`);
 });
